@@ -103,12 +103,8 @@ def extract_words(text):
     ['cat', 'on', 'my', 'keyboard']
     """
     "*** YOUR CODE HERE ***"
-    #matchTxt = re.findall(r'([^\.^\s]*)', text)
-    matchTxt = re.findall(r'(\w*)', text)
-
-    return matchTxt
-
-    #text.split()  # You may wish to change this line.
+    pattern = "\w+"
+    return re.findall(pattern, text)
 
 def make_sentiment(value):
     """Return a sentiment, which represents a value that may not exist.
