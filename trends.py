@@ -103,7 +103,9 @@ def extract_words(text):
     ['cat', 'on', 'my', 'keyboard']
     """
     "*** YOUR CODE HERE ***"
-    matchTxt = re.findall('([^\.]*)', text)
+    #matchTxt = re.findall(r'([^\.^\s]*)', text)
+    matchTxt = re.findall(r'(\w*)', text)
+
     return matchTxt
 
     #text.split()  # You may wish to change this line.
