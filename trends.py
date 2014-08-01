@@ -39,14 +39,20 @@ def make_tweet(text, time, lat, lon):
 def tweet_text(tweet):
     """Return a string, the words in the text of a tweet."""
     "*** YOUR CODE HERE ***"
+    return tweet[0]
+
+
 
 def tweet_time(tweet):
     """Return the datetime representing when a tweet was posted."""
     "*** YOUR CODE HERE ***"
+    return tweet[1]
 
 def tweet_location(tweet):
     """Return a position representing a tweet's location."""
     "*** YOUR CODE HERE ***"
+    return make_position(tweet[2], tweet[3])
+
 
 # The tweet abstract data type, implemented as a function.
 
@@ -63,6 +69,10 @@ def make_tweet_fn(text, time, lat, lon):
     """
     "*** YOUR CODE HERE ***"
     # Please don't call make_tweet in your solution
+    def tweet_key(key):
+        choices = dict([('text', text), ('time', time), ('lat', lat), ('lon', lon)])
+        return choices[key]
+    return tweet_key
 
 def tweet_text_fn(tweet):
     """Return a string, the words in the text of a functional tweet."""
@@ -103,7 +113,7 @@ def extract_words(text):
     ['cat', 'on', 'my', 'keyboard']
     """
     "*** YOUR CODE HERE ***"
-    pattern = "\w+"
+    pattern = "[a-zA-Z]+"
     return re.findall(pattern, text)
 
 def make_sentiment(value):
