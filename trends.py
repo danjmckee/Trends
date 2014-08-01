@@ -113,7 +113,7 @@ def extract_words(text):
     ['cat', 'on', 'my', 'keyboard']
     """
     "*** YOUR CODE HERE ***"
-    pattern = "\w+"
+    pattern = "[a-zA-Z]+"
     return re.findall(pattern, text)
 
 def make_sentiment(value):
