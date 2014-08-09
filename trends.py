@@ -221,8 +221,48 @@ def find_centroid(polygon):
     >>> list(map(float, find_centroid([p1, p2, p1])))  # A zero-area polygon
     [1.0, 2.0, 0.0]
     """
-    "*** YOUR CODE HERE ***"
+    """establish vertices"""
+    return_list = []
+    length = len(polygon)
+    list_of_vertices = []
+    x = 0
+    while x != length:
+        list_of_vertices.append(polygon[x])
+        x += 1
+    """Area"""
+    a, x, y, cx, cy = 0, 0, 0, 0, 0
+    while x != length - 1:
+        a += ((latitude(list_of_vertices[x])*longitude(list_of_vertices[x+1])) -
+         ((latitude(list_of_vertices[x+1]))*(longitude(list_of_vertices[x]))))
+        x += 1
+    a *= .5
+    a = abs(a)
+    if a == 0:
+        return [latitude(list_of_vertices[x]),longitude(list_of_vertices[x]),0]
     
+    
+    return_list.append(a)
+    """Cy"""
+    x = 0
+    while x != length - 1:
+        cy += ((longitude(list_of_vertices[x])+longitude(list_of_vertices[x+1])) *
+         (((latitude(list_of_vertices[x]))*(longitude(list_of_vertices[x+1]))) -
+              (latitude(list_of_vertices[x+1])*(longitude(list_of_vertices[x])))))
+        x += 1
+    cy = abs((1 / (6 * a)) * cy)
+    return_list.insert(0,cy)
+    """Cx"""
+    x = 0
+    while x != length - 1:
+        cx += ((latitude(list_of_vertices[x])+latitude(list_of_vertices[x+1])) *
+         (((latitude(list_of_vertices[x]))*(longitude(list_of_vertices[x+1]))) -
+              (latitude(list_of_vertices[x+1])*(longitude(list_of_vertices[x])))))
+        x += 1
+    cx = abs((1 / (6 * a)) * cx)
+    return_list.insert(0,cx)
+    return return_list
+
+
 def find_state_center(polygons):
     """Compute the geographic center of a state, averaged over its polygons.
 
