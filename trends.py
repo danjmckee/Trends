@@ -229,27 +229,14 @@ def find_centroid(polygon):
     while x != length:
         list_of_vertices.append(polygon[x])
         x += 1
-    """Area"""
     a, x, y, cx, cy = 0, 0, 0, 0, 0
-    while x != length - 1:
-        a += ((latitude(list_of_vertices[x])*longitude(list_of_vertices[x+1])) -
-         ((latitude(list_of_vertices[x+1]))*(longitude(list_of_vertices[x]))))
-        x += 1
-    a *= .5
-    a = abs(a)
+    """Area"""
+    a = area_of_polygon(polygon)
     if a == 0:
         return [latitude(list_of_vertices[x]),longitude(list_of_vertices[x]),0]
-    
-    
     return_list.append(a)
     """Cy"""
-    x = 0
-    while x != length - 1:
-        cy += ((longitude(list_of_vertices[x])+longitude(list_of_vertices[x+1])) *
-         (((latitude(list_of_vertices[x]))*(longitude(list_of_vertices[x+1]))) -
-              (latitude(list_of_vertices[x+1])*(longitude(list_of_vertices[x])))))
-        x += 1
-    cy = abs((1 / (6 * a)) * cy)
+    cy = centroid_y(polygon, a)
     return_list.insert(0,cy)
     """Cx"""
     x = 0
@@ -261,7 +248,34 @@ def find_centroid(polygon):
     cx = abs((1 / (6 * a)) * cx)
     return_list.insert(0,cx)
     return return_list
+def area_of_polygon(polygon):
+    """Returns the area of a multisided polygon when given a list of its 
+    vertices"""
+    length = len(polygon)
+    i, total_area = 0, 0
+    while i != length - 1:
+       total_area += latitude(polygon[i])*longitude(polygon[i+1]) - (
+               latitude(polygon[i+1])*longitude(polygon[i]))
+       i += 1
+    total_area = abs(total_area * .5)
+    return total_area
 
+def centroid_y(polygon, a):
+    """Returns the y coordinate of the centroid of a polygon, where a is
+    the area of the polygon"""
+    length = len(polygon)
+    i, cy = 0, 0
+    while i != length - 1:
+        cy += (longitude(polygon[i])+longitude(polygon[i+1])) * (
+                latitude(polygon[i])*longitude(polygon[i+1]) - (
+                    latitude(polygon[i+1])*longitude(polygon[i])))
+        i += 1
+    cy = (1 / (6 * a)) * abs(cy)
+    return cy
+
+def centroid_x(polygon, a):
+    """Returns the x coordinate of the centroid of a polygon, where a is 
+    the area of the polygon"""
 
 def find_state_center(polygons):
     """Compute the geographic center of a state, averaged over its polygons.
@@ -285,6 +299,14 @@ def find_state_center(polygons):
     -156.21763
     """
     "*** YOUR CODE HERE ***"
+
+
+
+
+
+
+
+
 
 
 ###################################
