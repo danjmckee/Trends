@@ -221,7 +221,6 @@ def find_centroid(polygon):
     >>> list(map(float, find_centroid([p1, p2, p1])))  # A zero-area polygon
     [1.0, 2.0, 0.0]
     """
-    """establish vertices"""
     return_list = []
     a, x, y, cx, cy = 0, 0, 0, 0, 0
     """Area"""
@@ -230,10 +229,10 @@ def find_centroid(polygon):
         return [latitude(polygon[0]),longitude(polygon[0]),0]
     return_list.append(a)
     """Cy"""
-    cy = centroid_y(polygon, a)
+    cy = abs(centroid_y(polygon, a))
     return_list.insert(0,cy)
     """Cx"""
-    cx = centroid_x(polygon, a)
+    cx = abs(centroid_x(polygon, a))
     return_list.insert(0,cx)
     return return_list
 
@@ -259,7 +258,7 @@ def centroid_y(polygon, a):
                 latitude(polygon[i])*longitude(polygon[i+1]) - (
                     latitude(polygon[i+1])*longitude(polygon[i])))
         i += 1
-    cy = (1 / (6 * a)) * abs(cy)
+    cy = (1 / (6 * a)) * cy
     return cy
 
 def centroid_x(polygon, a):
@@ -273,7 +272,7 @@ def centroid_x(polygon, a):
                 latitude(polygon[i])*longitude(polygon[i+1]) - (
                     latitude(polygon[i+1])*longitude(polygon[i])))
         i += 1
-    cx = (1 / (6 * a)) * abs(cx)
+    cx = (1 / (6 * a)) * cx
     return cx
 
 def find_state_center(polygons):
@@ -299,7 +298,16 @@ def find_state_center(polygons):
     """
     "*** YOUR CODE HERE ***"
 
-
+    num_of_polygons = len(polygons) - 1
+    cx, cy, total_a = 0, 0, 0
+    for p in polygons:
+        a = area_of_polygon(p)
+        total_a += area_of_polygon(p)
+        cx = centroid_x(p, a) * a + cx
+        cy = centroid_y(p, a) * a + cy
+    lat = cx / total_a
+    lon = cy / total_a
+    return make_position(lat, lon)
 
 
 
