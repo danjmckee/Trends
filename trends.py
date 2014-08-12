@@ -309,13 +309,6 @@ def find_state_center(polygons):
     lon = cy / total_a
     return make_position(lat, lon)
 
-
-
-
-
-
-
-
 ###################################
 # Phase 3: The Mood of the Nation #
 ###################################
@@ -341,6 +334,15 @@ def group_tweets_by_state(tweets):
     """
     tweets_by_state = make_database() 
     "*** YOUR CODE HERE ***"
+    num_of_tweets = len(tweets)
+    for x in tweets:
+        tweets_by_state = add_value(tweets_by_state, x, #value is a list of tweets
+                #that appear closer to that state's center than any other
+
+    
+    
+    
+    
     return tweets_by_state
 
 def average_sentiments(tweets_by_state):
