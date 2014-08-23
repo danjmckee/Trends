@@ -258,6 +258,8 @@ def centroid_y(polygon, a):
                 latitude(polygon[i])*longitude(polygon[i+1]) - (
                     latitude(polygon[i+1])*longitude(polygon[i])))
         i += 1
+    if a == 0:
+        return cy
     cy = (1 / (6 * a)) * cy
     return cy
 
@@ -272,6 +274,8 @@ def centroid_x(polygon, a):
                 latitude(polygon[i])*longitude(polygon[i+1]) - (
                     latitude(polygon[i+1])*longitude(polygon[i])))
         i += 1
+    if a == 0:
+        return cx
     cx = (1 / (6 * a)) * cx
     return cx
 
@@ -332,18 +336,24 @@ def group_tweets_by_state(tweets):
     >>> tweet_string(california_tweets[0])
     '"welcome to san francisco" @ (38, -122)'
     """
-    tweets_by_state = make_database() 
+    tweets_by_state = make_database()
     "*** YOUR CODE HERE ***"
     num_of_tweets = len(tweets)
-    for x in tweets:
-        tweets_by_state = add_value(tweets_by_state, x, #value is a list of tweets
-                #that appear closer to that state's center than any other
+    state_centers = state_center_locations()
+    #for x in tweets:
+    #    tweets_by_state = add_value(tweets_by_state, x, tweets)
 
-    
-    
-    
-    
     return tweets_by_state
+
+def state_center_locations():
+    """Returns a list of state center positions (latitude and longitude) 
+    for all 50 states"""
+    list_of_states = get_keys(us_states)
+    state_centers = []
+    for x in list_of_states:
+        state_centers.append(find_state_center(get_value_from_key(us_states, x)))
+
+    return state_centers
 
 def average_sentiments(tweets_by_state):
     """Calculate the average sentiment of the states by averaging over all
