@@ -339,20 +339,48 @@ def group_tweets_by_state(tweets):
     tweets_by_state = make_database()
     "*** YOUR CODE HERE ***"
     num_of_tweets = len(tweets)
-    state_centers = state_center_locations()
-    #for x in tweets:
-    #    tweets_by_state = add_value(tweets_by_state, x, tweets)
 
+    state_centers = get_values(state_center_locations())
+    state_names = get_keys(state_center_locations())
+    for x in tweets:
+        position = tweet_location(x)
+        print("position is: ", position)
+        shortest_distance = 1000000
+        for s in state_centers:
+            i = 0
+            distance = geo_distance(position, s)
+            print(distance)
+            if distance < shortest_distance:
+                shortest_distance = distance
+                closest_state = s
+                state_name = state_names[i]
+            i += 1
+        print(state_name)
+        tweets_by_state = add_value(tweets_by_state, state_name, x)
+    print(closest_state)
     return tweets_by_state
 
 def state_center_locations():
-    """Returns a list of state center positions (latitude and longitude) 
+    """Returns a database of state center positions (latitude and longitude) 
     for all 50 states"""
+    state_centers = make_database()
     list_of_states = get_keys(us_states)
-    state_centers = []
     for x in list_of_states:
-        state_centers.append(find_state_center(get_value_from_key(us_states, x)))
+        i = 0
+        state_centers = add_value(state_centers, list_of_states[i],
+                find_state_center(get_value_from_key(us_states, x)))
+        i += 1
+    return state_centers
 
+def find_closest_state(tweet):
+    """Returns the state center a tweet is closest to"""
+    location = tweet_location(tweet)
+    state_centers = find_state_centers()
+    shortest_distance = 1000
+    for x in state_centers:
+        distance = geo_distance(location, x)
+        if distance < shortest_distance:
+            shortest_distance = distance
     return state_centers
 
 def average_sentiments(tweets_by_state):
